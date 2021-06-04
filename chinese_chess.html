@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: '標楷體';
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 750px;
+            height: 800px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+        }
+
+        .cell {
+            border-collapse: collapse;
+        }
+
+        .cell td {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #000;
+        }
+
+        .river {
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        .chess {
+            width: 750px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+
+            position: absolute;
+        }
+
+        .piece {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            text-align: center;
+            line-height: 50px;
+            font-size: 2.5rem;
+            margin: 0 15px;
+        }
+
+        .piece-hidden {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 3rem;
+            margin: 0 15px;
+        }
+
+        .black {
+            color: #000;
+        }
+
+        .red {
+            color: #ff0000;
+        }
+
+        .textLeft {
+            writing-mode: vertical-rl;
+            font-size: 2.5rem;
+
+            position: absolute;
+            top: -5px;
+            left: -70px;
+        }
+
+        .textRight {
+            writing-mode: vertical-rl;
+            font-size: 2.5rem;
+
+            position: absolute;
+            top: -5px;
+            right: -70px;
+        }
+
+        .slash-1 {
+            width: 1px;
+            height: 226.27px;
+            background: #000;
+            transform: rotate(-45deg);
+            transform-origin: top left;
+
+            position: absolute;
+            top: 40px;
+            left: 295px;
+        }
+
+        .slash-2 {
+            width: 1px;
+            height: 226.27px;
+            background: #000;
+            transform: rotate(45deg);
+            transform-origin: top left;
+
+            position: absolute;
+            top: 40px;
+            left: 455px;
+        }
+
+        .slash-3 {
+            width: 1px;
+            height: 226.27px;
+            background: #000;
+            transform: rotate(45deg);
+            transform-origin: bottom left;
+
+            position: absolute;
+            bottom: 40px;
+            left: 293px;
+        }
+
+        .slash-4 {
+            width: 1px;
+            height: 226.27px;
+            background: #000;
+            transform: rotate(-45deg);
+            transform-origin: bottom left;
+
+            position: absolute;
+            bottom: 38px;
+            left: 455px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 棋盤 --------------------------------------------------------------------------->
+        <table class="cell">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="river" colspan="8">楚河&emsp;&emsp;&emsp;&emsp;漢界</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <!-- 棋盤斜線 ----------------------------------------------------------------------->
+        <div class="slash-1"></div>
+        <div class="slash-2"></div>
+        <div class="slash-3"></div>
+        <div class="slash-4"></div>
+        <!-- 棋子 --------------------------------------------------------------------------->
+        <div class="chess">
+            <!-- 第 1 列 ----------------------------->
+            <div class="piece black">車</div>
+            <div class="piece black">馬</div>
+            <div class="piece black">象</div>
+            <div class="piece black">士</div>
+            <div class="piece black">將</div>
+            <div class="piece black">士</div>
+            <div class="piece black">象</div>
+            <div class="piece black">馬</div>
+            <div class="piece black">車</div>
+
+            <!-- 第 2 列 ----------------------------->
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+
+            <!-- 第 3 列 ----------------------------->
+            <div class="piece-hidden"></div>
+            <div class="piece black">包</div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece black">包</div>
+            <div class="piece-hidden"></div>
+
+            <!-- 第 4 列 ----------------------------->
+            <div class="piece black">卒</div>
+            <div class="piece-hidden"></div>
+            <div class="piece black">卒</div>
+            <div class="piece-hidden"></div>
+            <div class="piece black">卒</div>
+            <div class="piece-hidden"></div>
+            <div class="piece black">卒</div>
+            <div class="piece-hidden"></div>
+            <div class="piece black">卒</div>
+
+            <!-- 第 5 列 ----------------------------->
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+
+            <!-- 第 6 列 ----------------------------->
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+
+            <!-- 第 7 列 ----------------------------->
+            <div class="piece red">兵</div>
+            <div class="piece-hidden"></div>
+            <div class="piece red">兵</div>
+            <div class="piece-hidden"></div>
+            <div class="piece red">兵</div>
+            <div class="piece-hidden"></div>
+            <div class="piece red">兵</div>
+            <div class="piece-hidden"></div>
+            <div class="piece red">兵</div>
+
+            <!-- 第 8 列 ----------------------------->
+            <div class="piece-hidden"></div>
+            <div class="piece red">炮</div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece red">炮</div>
+            <div class="piece-hidden"></div>
+
+            <!-- 第 9 列 ----------------------------->
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+            <div class="piece-hidden"></div>
+
+            <!-- 第 10 列 ----------------------------->
+            <div class="piece red">俥</div>
+            <div class="piece red">傌</div>
+            <div class="piece red">相</div>
+            <div class="piece red">仕</div>
+            <div class="piece red">將</div>
+            <div class="piece red">仕</div>
+            <div class="piece red">相</div>
+            <div class="piece red">傌</div>
+            <div class="piece red">俥</div>
+        </div>
+        <div class="textLeft">棋盤裡，車無輪，馬無韁，叫聲將軍提防提防</div>
+        <div class="textRight">圖畫裡，龍不吟，虎不嘯，小小書僮可笑可笑</div>
+    </div>
+</body>
+
+</html>
